@@ -1,0 +1,22 @@
+name: Terraform Release
+run-name: Build run by ${{ github.actor }} on ${{ github.ref_name }}
+
+on:
+  workflow_dispatch:
+
+permissions:
+  contents: write
+  id-token: write
+
+jobs:
+  create-release:
+    name: Create Release
+    runs-on: ubuntu-latest
+    uses: subhamay-bhattacharyya-gha/tf-relase-wf/.github/workflows/create-release.yaml@feature/GHA-0002-initial-release
+    with:
+      environment: "ci"
+      terraform-dir: "tf"
+    secrets:
+      aws-role-arn: ${{ secrets.AWS_ROLE_ARN }}
+      infracost-api-key: ${{ secrets.INFRACOST_API_KEY }}
+      infracost-gist-id: ${{ secrets.INFRACOST_GIST_ID }}
